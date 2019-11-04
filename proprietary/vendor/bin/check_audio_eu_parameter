@@ -1,0 +1,16 @@
+#!/vendor/bin/sh
+
+log -p d -t check_audio_eu_parameter "check eu parameter invoked"
+CE_LIST=("EU" "RU" "TR" "AE" "UA" "BH" "IR" "BR")
+ARRAY_SIZE=$(( ${#CE_LIST[@]} - 1 ))
+setprop use.audio.eu.parameters false
+
+for i in $(seq 0 $ARRAY_SIZE)
+do
+    if [[ $(getprop ro.config.versatility) == "${CE_LIST[$i]}" ]]
+    then
+        log -p d -t check_audio_eu_parameter "set prop to true."
+        setprop use.audio.eu.parameters true
+    fi
+done
+
